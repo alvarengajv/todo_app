@@ -23,7 +23,9 @@ body {
     text-align: justify;
 }
 
-.add_list_content {    
+.list_content {    
+    height: 200px;
+    width: 600px;        
     margin: 20px;             
     padding: 20px;     
     background-color: #fff;   
@@ -31,7 +33,14 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     border-radius: 12px;       
     text-align: justify;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px; 
+    margin: 0 auto; 
+    flex-grow: 1; 
 }
+
 
 button {
     padding: 10px 20px;
@@ -71,4 +80,39 @@ h3 {
     display: flex;
     justify-content: space-between;
     gap: 10px;
+    margin-top: auto;
+}
+
+
+.task_content {
+    height: 400px;
+    width: 600px;        
+    margin: 20px;             
+    padding: 20px;     
+    background-color: #fff;   
+    color: #361856;         
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 12px;       
+    text-align: justify;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    width: 300px; 
+    margin: 0 auto; 
+    flex-grow: 1; 
+}
+
+label, input, textarea {
+    width: 100%; 
+}
+
+.button-link {
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: none;
+    background-color: #EA6E2B;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
 }
