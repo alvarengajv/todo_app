@@ -13,6 +13,31 @@ h3 {
     margin-bottom: 20px;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header a, .header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.header .fas {
+    margin-left: 15px;
+    color: #555;
+}
+
+.header button i {
+    font-size: 1.5em;
+    color: #333;
+}
+
+/* Listagem de tarefas */
 .lista-tarefas {
     list-style-type: none;
     padding: 0;
@@ -20,22 +45,24 @@ h3 {
 
 .tarefa-item {
     display: flex;
+    justify-content: space-between;
     align-items: flex-start;
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
     margin-bottom: 15px;
     background-color: #f9f9f9;
+    flex-wrap: wrap;
 }
 
 .checkbox-tarefa {
-    margin-right: 15px;
+    margin-right: 10px;
     transform: scale(1.2); 
 }
 
 .tarefa-texto {
     display: flex;
-    flex-direction: column;
+    align-items: center;
 }
 
 .tarefa-texto strong {
@@ -43,10 +70,31 @@ h3 {
     margin-bottom: 5px;
 }
 
+.tarefa-detalhes {
+    margin-top: 10px;
+    width: 100%;
+    font-size: 0.9em;
+    color: #555;
+}
+
 .tarefa-detalhes p {
     margin: 0;
-    color: #555;
-    font-size: 0.9em;
+}
+
+.tarefa-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.acao-icone {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.acao-icone i {
+    font-size: 1.2em;
 }
 
 .button-link {
@@ -56,11 +104,13 @@ h3 {
     color: #fff;
     text-decoration: none;
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-top: 20px;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .button-link:hover {
     background-color: #ED8045;
 }
-

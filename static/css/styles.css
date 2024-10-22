@@ -133,15 +133,15 @@ label, input, textarea {
 }
 
 .tarefa-detalhes {
-    margin-left: 30px; /* Ajuste para alinhar detalhes com o título */
+    margin-left: 30px; 
 }
 
 .tarefa-item label {
-    margin-left: 0; /* Remove o espaçamento à esquerda */
+    margin-left: 0; 
 }
 
 .tarefa-item input[type="checkbox"] {
     margin-right: 10px;
-    margin-left: 0; /* Alinha o checkbox à esquerda */
-    transform: scale(1.2); /* Aumenta o tamanho do checkbox para melhor visualização */
+    margin-left: 0; 
+    transform: scale(1.2); 
 }

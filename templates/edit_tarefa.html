@@ -16,10 +16,10 @@
             <input type="text" id="titulo" name="titulo" value="{{ tarefa.titulo }}" required><br>
 
             <label for="data">Data:</label>
-            <input type="date" id="data" name="data" value="{{ tarefa.data }}"><br>
+            <input type="date" id="data" name="data" value="{{ tarefa.data.strftime('%Y-%m-%d') }}" required><br>
             
             <label for="hora">Hora:</label>
-            <input type="time" id="hora" name="hora" value="{{ tarefa.hora }}"><br>
+            <input type="time" id="hora" name="hora" value="{{ tarefa.hora.strftime('%H:%M') }}" required><br>            
 
             <label for="descricao">Descrição:</label>
             <textarea id="descricao" name="descricao">{{ tarefa.descricao }}</textarea><br>
@@ -28,51 +28,49 @@
                 <a href="{{ url_for('web.lista', id=lista_id) }}" class="button-link">Cancelar</a>
                 <button type="submit">Salvar</button>
             </div>
-
         </form>
     </div>
 
     <script>
-    $(document).ready(function() {
     $('#edit-tarefa-form').on('submit', function(event) {
-        event.preventDefault();  
+    event.preventDefault();  
 
-        var tarefaId = "{{ tarefa.id }}"; 
-        var listaId = "{{ tarefa.lista_id }}";
+    var tarefaId = "{{ tarefa.id }}"; 
+    var listaId = "{{ tarefa.lista_id }}";  
 
-        var titulo = $('#titulo').val();
-        var data = $('#data').val();
-        var hora = $('#hora').val();
-        var descricao = $('#descricao').val();
+    var titulo = $('#titulo').val();
+    var data = $('#data').val();
+    var hora = $('#hora').val();
+    var descricao = $('#descricao').val();
 
-        if (!titulo || !data || !hora) {
-            alert('Preencha todos os campos obrigatórios.');
-            return;
-        }
+    console.log("Data:", data, "Hora:", hora);
 
-        $.ajax({
-            url: '/listas/' + listaId + '/tarefas/' + tarefaId, 
-            type: 'PUT',  
-            contentType: 'application/json',
-            data: JSON.stringify({
-                'titulo': titulo,
-                'data': data,
-                'hora': hora,
-                'descricao': descricao
-            }),
-            success: function(response) {
-                if (response.success) {
-                    window.location.href = response.redirect;
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Erro ao atualizar a tarefa:', xhr.responseText);
-                alert('Erro ao atualizar a tarefa');
+    if (!titulo || !data || !hora) {
+        alert('Preencha todos os campos obrigatórios.');
+        return;
+    }
+
+    $.ajax({
+        url: '/lista/' + listaId + '/tarefa/' + tarefaId + '/edit',  
+        type: 'PUT',  
+        contentType: 'application/json',
+        data: JSON.stringify({
+            'titulo': titulo,
+            'data': data,
+            'hora': hora,
+            'descricao': descricao
+        }),
+        success: function(response) {
+            if (response.success) {
+                window.location.href = response.redirect;
             }
-        });
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao atualizar a tarefa:', xhr.responseText);
+            alert('Erro ao atualizar a tarefa');
+        }
     });
 });
-    
     </script>
 </body>
 </html>

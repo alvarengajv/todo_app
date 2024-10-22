@@ -32,6 +32,34 @@ def add_lista():
         return "Erro: Título da lista não fornecido", 400
     return render_template('add_lista.html')
 
+@web_bp.route('/lista/<int:id>/edit', methods=['GET', 'PUT'])
+def edit_lista(id):
+    lista = db_session.query(Lista).get(id)
+    if not lista:
+        return jsonify({'error': 'Lista não encontrada'}), 404
+
+    if request.method == 'PUT':
+        data = request.get_json()  
+        titulo = data.get('lista-titulo')
+        if titulo:
+            lista.titulo = titulo
+            db_session.commit()
+
+            return jsonify({'success': True, 'redirect': url_for('web.lista', id=id)}), 200
+        return jsonify({'error': 'Título da lista não fornecido'}), 400
+
+    return render_template('edit_lista.html', lista=lista)
+
+@web_bp.route('/lista/<int:id>/delete', methods=['DELETE'])
+def delete_lista(id):
+    lista = db_session.query(Lista).get(id)
+    if lista:
+        db_session.delete(lista)
+        db_session.commit()
+        
+        return jsonify({'success': True, 'redirect': url_for('web.home')}), 200
+    return jsonify({'error': 'Lista não encontrada'}), 404
+
 @web_bp.route('/lista/<int:lista_id>/tarefa/add', methods=['GET', 'POST'])
 def add_tarefa(lista_id):
     if request.method == 'POST':
@@ -66,10 +94,10 @@ def add_tarefa(lista_id):
 def edit_tarefa(lista_id, tarefa_id):
     tarefa = db_session.query(Tarefa).filter_by(id=tarefa_id, lista_id=lista_id).first()
     if not tarefa:
-        return "Tarefa não encontrada", 404
-    
+        return jsonify({'error': 'Tarefa não encontrada'}), 404
+
     if request.method == 'PUT':
-        data = request.get_json()  
+        data = request.get_json()
         titulo = data.get('titulo')
         descricao = data.get('descricao')
         data_tarefa = data.get('data')
@@ -77,7 +105,7 @@ def edit_tarefa(lista_id, tarefa_id):
 
         if not data_tarefa or not hora_tarefa:
             return jsonify({'error': 'Data e hora são obrigatórios!'}), 400
-        
+
         try:
             data_formatada = datetime.strptime(data_tarefa, '%Y-%m-%d').date()
             hora_formatada = datetime.strptime(hora_tarefa, '%H:%M').time()
@@ -94,11 +122,11 @@ def edit_tarefa(lista_id, tarefa_id):
 
     return render_template('edit_tarefa.html', tarefa=tarefa, lista_id=lista_id)
 
-@web_bp.route('/tarefa/<int:tarefa_id>/delete', methods=['POST'])
-def delete_tarefa(tarefa_id):
-    tarefa = db_session.query(Tarefa).get(tarefa_id)
+@web_bp.route('/lista/<int:lista_id>/tarefa/<int:tarefa_id>/delete', methods=['DELETE'])
+def delete_tarefa(lista_id, tarefa_id):
+    tarefa = db_session.query(Tarefa).filter_by(id=tarefa_id, lista_id=lista_id).first()
     if tarefa:
         db_session.delete(tarefa)
         db_session.commit()
-        return redirect(url_for('web.lista', id=tarefa.lista_id))
-    return "Tarefa não encontrada", 404
+        return jsonify({'success': True, 'message': 'Tarefa deletada com sucesso'}), 200
+    return jsonify({'error': 'Tarefa não encontrada'}), 404
