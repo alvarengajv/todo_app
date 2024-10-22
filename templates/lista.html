@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lista.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+</head>
+<body>
+    <div class="content">
+
+        <a href="{{ url_for('web.home') }}" class="link-voltar">
+            <span class="fas fa-chevron-left"></span> Home
+        </a>
+
+        <h3>{{ lista.titulo }}</h3>
+        {% if lista.tarefas %}
+            <ul class="lista-tarefas">
+                {% for tarefa in lista.tarefas %}
+                <li class="tarefa-item">
+                    <input type="checkbox" 
+                           {% if tarefa.concluida == 1 %}checked{% endif %} 
+                           class="checkbox-tarefa" 
+                           data-id="{{ tarefa.id }}"
+                           data-lista-id="{{ lista.id }}">
+                    <div class="tarefa-texto">
+                        <div class="tarefa-header">
+                            <label>
+                                <strong>{{ tarefa.titulo }}</strong>
+                            </label>
+                            <div class="tarefa-acoes">
+                                <button type="button" class="acao-icone edit-tarefa" data-id="{{ tarefa.id }}" data-lista-id="{{ lista.id }}">
+                                    <i class="fas fa-pencil"></i>
+                                </button>
+                                <button type="button" class="acao-icone delete-tarefa" data-id="{{ tarefa.id }}" data-lista-id="{{ lista.id }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tarefa-detalhes">
+                            <p>{{ tarefa.descricao }}</p>
+                            <p>{{ tarefa.data.strftime('%d/%m/%Y') }} {{ tarefa.hora.strftime('%H:%M') }}</p>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Essa lista ainda não possui tarefas.</p>
+        {% endif %}
+        
+        <a href="{{ url_for('web.add_tarefa', lista_id=lista.id) }}" class="button-link">
+            Adicionar tarefa
+        </a>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.delete-tarefa').on('click', function() {
+                var tarefaId = $(this).data('id');
+                var listaId = $(this).data('lista-id');
+
+                if (confirm('Tem certeza que deseja deletar esta tarefa?')) {
+                    $.ajax({
+                        url: '/listas/' + listaId + '/tarefas/' + tarefaId,
+                        type: 'DELETE',
+                        success: function(response) {
+                            window.location.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Erro ao deletar tarefa');
+                        }
+                    });
+                }
+            });
+
+            $('.edit-tarefa').on('click', function() {
+                var tarefaId = $(this).data('id');
+                var listaId = $(this).data('lista-id');
+                window.location.href = '/lista/' + listaId + '/tarefa/' + tarefaId + '/edit';
+            });
+        });
+    </script>
+</body>
+</html>

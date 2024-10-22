@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.lista-tarefas {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tarefa-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+
+.checkbox-tarefa {
+    margin-right: 15px;
+    transform: scale(1.2); 
+}
+
+.tarefa-texto {
+    display: flex;
+    flex-direction: column;
+}
+
+.tarefa-texto strong {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.tarefa-detalhes p {
+    margin: 0;
+    color: #555;
+    font-size: 0.9em;
+}
+
+.button-link {
+    display: block;
+    text-align: center;
+    background-color: #EA6E2B;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.button-link:hover {
+    background-color: #ED8045;
+}
+

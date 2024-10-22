@@ -21,6 +21,12 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     border-radius: 12px;       
     text-align: justify;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+    margin: 0 auto;
+
 }
 
 .list_content {    
@@ -40,7 +46,6 @@ body {
     margin: 0 auto; 
     flex-grow: 1; 
 }
-
 
 button {
     padding: 10px 20px;
@@ -62,7 +67,7 @@ button:hover {
     gap: 10px;            
 }
 
-back-button {
+arrow-button {
     font-size: 20px;      
     cursor: pointer;
     color: #EA6E2B;
@@ -70,7 +75,6 @@ back-button {
     border: none;         
     padding: 0;           
 }
-
 
 h3 {
     text-align: center;
@@ -82,6 +86,7 @@ h3 {
     gap: 10px;
     margin-top: auto;
 }
+
 
 
 .task_content {
@@ -115,4 +120,28 @@ label, input, textarea {
     border: none;
     border-radius: 12px;
     cursor: pointer;
+}
+
+.tarefa-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tarefa-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.tarefa-detalhes {
+    margin-left: 30px; /* Ajuste para alinhar detalhes com o título */
+}
+
+.tarefa-item label {
+    margin-left: 0; /* Remove o espaçamento à esquerda */
+}
+
+.tarefa-item input[type="checkbox"] {
+    margin-right: 10px;
+    margin-left: 0; /* Alinha o checkbox à esquerda */
+    transform: scale(1.2); /* Aumenta o tamanho do checkbox para melhor visualização */
 }

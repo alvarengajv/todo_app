@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do App - Adicionar Tarefa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <form action="{{ url_for('web.add_tarefa', lista_id=lista_id) }}" method="POST">
+        <div class="task_content">
+            <h3>Adicionar tarefa</h3>
+            <label for="task-title">Título da tarefa:</label>
+            <input type="text" id="task-title" name="task-title" placeholder="Adicionar título..." required>
+            
+            <label for="task-date">Data:</label>
+            <input type="date" id="task-date" name="task-date" required>
+            
+            <label for="task-time">Hora:</label>
+            <input type="time" id="task-time" name="task-time" required>
+            
+            <label for="task-description">Descrição:</label>
+            <textarea id="task-description" name="task-description" placeholder="Adicionar descrição..."></textarea>
+            
+            <div class="two-buttons">
+                <a href="{{ url_for('web.lista', id=lista_id) }}" class="button-link">Cancelar</a>
+                <button type="submit" class="button-link">Adicionar</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

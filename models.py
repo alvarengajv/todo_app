@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Time 
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -22,9 +22,11 @@ class Tarefa(Base):
     
     id = Column(Integer, primary_key=True)
     titulo = Column(String(100), nullable=False)
-    data = Column(String(10), nullable=False)  
-    hora = Column(String(5), nullable=False)   
+    data = Column(Date, nullable=False)
+    hora = Column(Time, nullable=False)  
     descricao = Column(Text)
+
+    concluida = Column(Integer, default=False)
 
     lista_id = Column(Integer, ForeignKey('listas.id'))
     lista = relationship('Lista', back_populates='tarefas')
@@ -33,7 +35,8 @@ class Tarefa(Base):
         return {
             'id': self.id,
             'titulo': self.titulo,
-            'data': self.data,
-            'hora': self.hora,
-            'descricao': self.descricao
+            'data': self.data.strftime('%Y-%m-%d'),
+            'hora': self.hora.strftime('%H:%M'),
+            'descricao': self.descricao,
+            'concluida': self.concluida
         }

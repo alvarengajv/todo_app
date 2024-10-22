@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <form action="{{ url_for('web.add_lista') }}" method="POST">
+        <div class="list_content">
+            <h3>Adicionar lista</h3>
+            <label for="lista-titulo">Título da lista:</label>
+            <input type="text" id="lista-titulo" name="lista-titulo" placeholder="Adicionar título..." required>
+            <div class="two-buttons">
+                <a href="{{ url_for('web.home') }}" class="button-link">Cancelar</a>
+                <button type="submit" class="button-link">Adicionar</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

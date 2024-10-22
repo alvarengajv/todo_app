@@ -1,10 +1,10 @@
-from wtforms import Form, StringField, TextAreaField
+from wtforms import Form, StringField, TextAreaField, DateField, TimeField
 
 class ListaForm(Form):
     titulo = StringField('Título')
 
 class TarefaForm(Form):
     titulo = StringField('Título')
-    data = StringField('Data')
-    hora = StringField('Hora')
+    data = DateField('Data')
+    hora = TimeField('Hora')
     descricao = TextAreaField('Descrição')
