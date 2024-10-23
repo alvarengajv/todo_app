@@ -3,74 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Tarefa</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <title>To Do App - Editar Tarefa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit_tarefa.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="task_content">
-        <h3>Editar Tarefa</h3>
+    <div class="container">
+        <div class="content">
+            <h1>Editar Tarefa</h1>
 
-        <form id="edit-tarefa-form">
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" value="{{ tarefa.titulo }}" required><br>
+            <form id="edit-tarefa-form" class="form-content">
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input 
+                        type="text" 
+                        id="titulo" 
+                        name="titulo" 
+                        value="{{ tarefa.titulo }}" 
+                        required
+                        class="form-input"
+                    >
+                </div>
 
-            <label for="data">Data:</label>
-            <input type="date" id="data" name="data" value="{{ tarefa.data.strftime('%Y-%m-%d') }}" required><br>
-            
-            <label for="hora">Hora:</label>
-            <input type="time" id="hora" name="hora" value="{{ tarefa.hora.strftime('%H:%M') }}" required><br>            
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="data">Data</label>
+                        <input 
+                            type="date" 
+                            id="data" 
+                            name="data" 
+                            value="{{ tarefa.data.strftime('%Y-%m-%d') }}" 
+                            required
+                            class="form-input"
+                        >
+                    </div>
 
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao">{{ tarefa.descricao }}</textarea><br>
+                    <div class="form-group">
+                        <label for="hora">Hora</label>
+                        <input 
+                            type="time" 
+                            id="hora" 
+                            name="hora" 
+                            value="{{ tarefa.hora.strftime('%H:%M') }}" 
+                            required
+                            class="form-input"
+                        >
+                    </div>
+                </div>
 
-            <div class="two-buttons">
-                <a href="{{ url_for('web.lista', id=lista_id) }}" class="button-link">Cancelar</a>
-                <button type="submit">Salvar</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea 
+                        id="descricao" 
+                        name="descricao" 
+                        class="form-input"
+                    >{{ tarefa.descricao }}</textarea>
+                </div>
+
+                <div class="form-actions">
+                    <a href="{{ url_for('web.lista', id=lista_id) }}" class="btn-primary">
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i>
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
-    $('#edit-tarefa-form').on('submit', function(event) {
-    event.preventDefault();  
+        $(document).ready(function() {
+            $('#edit-tarefa-form').on('submit', function(event) {
+                event.preventDefault();
 
-    var tarefaId = "{{ tarefa.id }}"; 
-    var listaId = "{{ tarefa.lista_id }}";  
+                var tarefaId = "{{ tarefa.id }}";
+                var listaId = "{{ lista_id }}";
 
-    var titulo = $('#titulo').val();
-    var data = $('#data').val();
-    var hora = $('#hora').val();
-    var descricao = $('#descricao').val();
+                var formData = {
+                    'titulo': $('#titulo').val(),
+                    'data': $('#data').val(),
+                    'hora': $('#hora').val(),
+                    'descricao': $('#descricao').val()
+                };
 
-    console.log("Data:", data, "Hora:", hora);
+                if (!formData.titulo || !formData.data || !formData.hora) {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
 
-    if (!titulo || !data || !hora) {
-        alert('Preencha todos os campos obrigatórios.');
-        return;
-    }
-
-    $.ajax({
-        url: '/lista/' + listaId + '/tarefa/' + tarefaId + '/edit',  
-        type: 'PUT',  
-        contentType: 'application/json',
-        data: JSON.stringify({
-            'titulo': titulo,
-            'data': data,
-            'hora': hora,
-            'descricao': descricao
-        }),
-        success: function(response) {
-            if (response.success) {
-                window.location.href = response.redirect;
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Erro ao atualizar a tarefa:', xhr.responseText);
-            alert('Erro ao atualizar a tarefa');
-        }
-    });
-});
+                $.ajax({
+                    url: '/lista/' + listaId + '/tarefa/' + tarefaId + '/edit',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function(response) {
+                        if (response.success) {
+                            window.location.href = response.redirect;
+                        } else {
+                            alert('Erro ao atualizar tarefa: ' + response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Erro ao atualizar tarefa. Por favor, tente novamente.');
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>

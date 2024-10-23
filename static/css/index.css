@@ -1,0 +1,119 @@
+/* Reset e variáveis */
+:root {
+    --color-primary: #6A0DAD;
+    --color-accent: #EA6E2B;
+    --color-accent-hover: #ED8045;
+    --color-text: #333;
+    --color-text-secondary: #555;
+    --color-background: #fff;
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px; 
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    text-align: justify;
+    margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: fit-content;
+    margin: 2rem auto 0;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+}
+
+footer {
+    margin-top: auto;
+    padding-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: var(--color-accent-hover);
+}
+
+.text-center {
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    p {
+        font-size: 0.95rem;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+}

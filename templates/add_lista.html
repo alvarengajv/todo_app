@@ -3,20 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>To Do App - Adicionar Lista</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_lista.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <form action="{{ url_for('web.add_lista') }}" method="POST">
-        <div class="list_content">
-            <h3>Adicionar lista</h3>
-            <label for="lista-titulo">Título da lista:</label>
-            <input type="text" id="lista-titulo" name="lista-titulo" placeholder="Adicionar título..." required>
-            <div class="two-buttons">
-                <a href="{{ url_for('web.home') }}" class="button-link">Cancelar</a>
-                <button type="submit" class="button-link">Adicionar</button>
-            </div>
+    <div class="container">
+        <div class="content">
+            <h1>Adicionar Lista</h1>
+            
+            <form action="{{ url_for('web.add_lista') }}" method="POST">
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input 
+                        type="text" 
+                        id="titulo" 
+                        name="titulo" 
+                        placeholder="Digite o título da lista..." 
+                        required
+                    >
+                </div>
+
+                <div class="form-actions">
+                    <a href="{{ url_for('web.home') }}" class="btn-primary">
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Adicionar
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </body>
 </html>

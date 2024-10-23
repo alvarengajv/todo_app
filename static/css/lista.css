@@ -1,116 +1,253 @@
-body {
-    font-family: Arial, sans-serif;
+:root {
+    --color-primary: #6A0DAD;
+    --color-accent: #EA6E2B;
+    --color-accent-hover: #ED8045;
+    --color-background: #fff;
+    --color-text: #333;
+    --color-text-secondary: #666;
+    --color-border: #e0e0e0;
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
 }
 
-.content {
-    max-width: 600px;
-    margin: 0 auto;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
 }
 
-h3 {
-    text-align: center;
-    margin-bottom: 20px;
+.container {
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    padding: 2rem;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
 }
 
-.header a, .header button {
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.back-link:hover {
+    color: var(--color-accent);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.icon-button {
     background: none;
     border: none;
+    color: var(--color-text-secondary);
     cursor: pointer;
-    font-size: 1.2em;
+    padding: 0.5rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.header .fas {
-    margin-left: 15px;
-    color: #555;
+.icon-button:hover {
+    color: var(--color-accent);
+    transform: translateY(-2px);
 }
 
-.header button i {
-    font-size: 1.5em;
-    color: #333;
+.icon-button i {
+    font-size: 1.2rem;
 }
 
-/* Listagem de tarefas */
+h1 {
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.75rem;
+}
+
 .lista-tarefas {
-    list-style-type: none;
-    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .tarefa-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    background-color: #f9f9f9;
-    flex-wrap: wrap;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    transition: var(--transition);
 }
 
-.checkbox-tarefa {
-    margin-right: 10px;
-    transform: scale(1.2); 
+.tarefa-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tarefa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
 }
 
 .tarefa-texto {
     display: flex;
     align-items: center;
+    gap: 0.75rem;
 }
 
-.tarefa-texto strong {
-    font-size: 1.2em;
-    margin-bottom: 5px;
+.checkbox-tarefa {
+    width: 1.2rem;
+    height: 1.2rem;
+    appearance: none;
+    border: 2px solid var(--color-border);
+    border-radius: 50%;
+    border-color: var(--color-text-secondary);
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: background-color 0.1s ease;
 }
 
-.tarefa-detalhes {
-    margin-top: 10px;
-    width: 100%;
-    font-size: 0.9em;
-    color: #555;
+.checkbox-tarefa:checked {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
 }
 
-.tarefa-detalhes p {
-    margin: 0;
+.checkbox-tarefa:checked::after {
+    content: '✔';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 0.7rem;
+}
+
+.tarefa-titulo {
+    font-weight: 500;
+    color: var(--color-text);
+    transition: var(--transition);
+}
+
+.tarefa-titulo.concluida {
+    text-decoration: line-through;
+    color: var(--color-text-secondary);
+    opacity: 0.7;
 }
 
 .tarefa-acoes {
     display: flex;
+    gap: 0.5rem;
+}
+
+.tarefa-detalhes {
+    margin-left: 2rem;
+    transition: var(--transition);
+}
+
+.tarefa-item .checkbox-tarefa:checked ~ .tarefa-detalhes {
+    opacity: 0.7;
+}
+
+.tarefa-descricao {
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.tarefa-data {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    display: flex;
+    gap: 1rem;
     align-items: center;
-    gap: 10px;
 }
 
-.acao-icone {
-    background: none;
-    border: none;
-    cursor: pointer;
+.tarefa-data i {
+    margin-right: 0.25rem;
 }
 
-.acao-icone i {
-    font-size: 1.2em;
-}
-
-.button-link {
-    display: block;
+.empty-state {
     text-align: center;
-    background-color: #EA6E2B;
-    color: #fff;
+    color: var(--color-text-secondary);
+    margin: 2rem 0;
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--color-accent);
+    color: var(--color-background);
     text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 12px;
-    margin-top: 20px;
-    width: 200px;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    margin-top: 2rem;
+    width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    transition: var(--transition);
+    font-size: 1rem;
 }
 
-.button-link:hover {
-    background-color: #ED8045;
+.btn-primary:hover {
+    background-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+}
+
+.btn-primary i {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .tarefa-item {
+        padding: 0.75rem;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+
+    .tarefa-data {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
 }

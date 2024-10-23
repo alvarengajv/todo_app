@@ -23,7 +23,7 @@ def lista(id):
 @web_bp.route('/lista/add', methods=['GET', 'POST'])
 def add_lista():
     if request.method == 'POST':
-        titulo = request.form.get('lista-titulo')
+        titulo = request.form.get('titulo')
         if titulo:
             nova_lista = Lista(titulo=titulo)
             db_session.add(nova_lista)
@@ -39,15 +39,17 @@ def edit_lista(id):
         return jsonify({'error': 'Lista não encontrada'}), 404
 
     if request.method == 'PUT':
-        data = request.get_json()  
-        titulo = data.get('lista-titulo')
-        if titulo:
-            lista.titulo = titulo
-            db_session.commit()
+        data = request.get_json()
+        titulo = data.get('titulo')
 
-            return jsonify({'success': True, 'redirect': url_for('web.lista', id=id)}), 200
-        return jsonify({'error': 'Título da lista não fornecido'}), 400
+        if not titulo:
+            return jsonify({'error': 'Título é obrigatório!'}), 400
 
+        lista.titulo = titulo
+        db_session.commit()
+
+        return jsonify({'success': True, 'redirect': url_for('web.lista', id=id)})
+    
     return render_template('edit_lista.html', lista=lista)
 
 @web_bp.route('/lista/<int:id>/delete', methods=['DELETE'])
@@ -63,10 +65,10 @@ def delete_lista(id):
 @web_bp.route('/lista/<int:lista_id>/tarefa/add', methods=['GET', 'POST'])
 def add_tarefa(lista_id):
     if request.method == 'POST':
-        titulo = request.form.get('task-title')
-        data = request.form.get('task-date')
-        hora = request.form.get('task-time')
-        descricao = request.form.get('task-description')
+        titulo = request.form.get('titulo')
+        data = request.form.get('data')
+        hora = request.form.get('hora')
+        descricao = request.form.get('descricao')
 
         if not titulo or not data or not hora:
             return "Erro: Título, Data e Hora são obrigatórios!", 400
