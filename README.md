@@ -122,6 +122,51 @@ O aplicativo estará disponível em `http://127.0.0.1:5000/`.
 
 ---
 
+## Banco de dados
+
+O projeto utiliza **SQLite** como banco de dados e **SQLAlchemy** como ORM (Object-Relational Mapper) para abstrair as interações com o banco de dados. A escolha do SQLite é ideal para desenvolvimento local e aplicações simples, pois é um banco de dados leve que armazena os dados em um único arquivo (`todo_app.db`) no diretório `database/`. 
+
+O **SQLAlchemy** permite que a interação com o banco de dados seja feita de forma mais intuitiva, usando classes Python para representar as tabelas e abstraindo a necessidade de escrever SQL diretamente.
+
+### Modelos
+
+Foram definidos dois modelos principais: `Lista` e `Tarefa`. Esses modelos representam, respectivamente, uma lista de tarefas e uma tarefa específica dentro de uma lista.
+
+#### **Lista**
+
+O modelo `Lista` representa uma lista de tarefas e contém um título para identificá-la.
+
+##### Campos
+
+- **id**: Identificador único da lista (chave primária).
+- **titulo**: Nome da lista.
+- **tarefas**: Relacionamento um-para-muitos com o modelo `Tarefa`, permitindo que uma lista tenha várias tarefas. O parâmetro `cascade="all, delete-orphan"` garante que ao excluir uma lista, todas as tarefas associadas a ela também sejam removidas.
+
+#### **Tarefa**
+
+O modelo `Tarefa` representa uma tarefa específica dentro de uma lista. Contém informações como título, descrição, data e hora de execução, status de conclusão e a associação com uma lista.
+
+##### Campos
+
+- **id**: Identificador único da tarefa (chave primária).
+- **titulo**: Nome ou título da tarefa.
+- **data**: Data de conclusão da tarefa.
+- **hora**: Horário de conclusão da tarefa.
+- **descricao**: Detalhes adicionais sobre a tarefa.
+- **concluida**: Indicador booleano que define se a tarefa foi concluída.
+- **lista_id**: Chave estrangeira que associa a tarefa a uma lista específica, utilizando o `id` da tabela `listas`.
+
+#### Relacionamento entre `Lista` e `Tarefa`
+
+- Uma `Lista` possui várias `Tarefas`, enquanto cada `Tarefa` pertence a uma única `Lista`.
+- Esse relacionamento um-para-muitos é configurado no SQLAlchemy através do `db.relationship` no modelo `Lista` e da `db.ForeignKey` no modelo `Tarefa`.
+
+### Criação e Inicialização do Banco de Dados
+
+O banco de dados é criado e inicializado chamando `db.create_all()` no contexto da aplicação Flask. Isso cria as tabelas `listas` e `tarefas` no banco de dados SQLite (`todo_app.db`), conforme as definições nos modelos.
+
+---
+
 ## Backend
 
 ### Rotas API
