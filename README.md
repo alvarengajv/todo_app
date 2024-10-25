@@ -1,7 +1,3 @@
-Aqui está a versão do **README.md** para seu projeto, pronta para ser usada:
-
----
-
 # To-Do App
 
 Este é um aplicativo de tarefas (To-Do App) construído usando **Flask (Python)**. O aplicativo permite que os usuários criem listas de tarefas, adicionem, editem, concluam e excluam tarefas facilmente.
@@ -26,21 +22,34 @@ Este é um aplicativo de tarefas (To-Do App) construído usando **Flask (Python)
 ## Estrutura do Projeto
 
 ```plaintext
-my-flask-app/
+TODO_APP/
 │
-├── app.py               # Arquivo principal que inicia a aplicação Flask
-├── requirements.txt     # Arquivo de dependências Python
-├── runtime.txt          # Versão do Python (se configurado)
-├── static/              # Arquivos estáticos (CSS)
-│   └── css/             # Arquivos CSS
-├── templates/           # Arquivos HTML renderizados com Jinja2
-├── database.py          # Conexão com o banco de dados SQLite
-├── forms.py             # Formulários Flask-WTF (se estiver usando forms)
-├── models.py            # Definição dos modelos/tabelas do banco de dados
-├── web_routes.py        # Rotas principais da aplicação (web)
-├── api_routes.py        # Rotas da API (RESTful)
-└── database/            # Banco de dados SQLite
-    └── todo_app.db      # Arquivo de banco de dados SQLite
+├── database/              # Banco de dados SQLite
+│   └── todo_app.db        # Arquivo de banco de dados SQLite
+├── static/                # Arquivos estáticos (CSS)
+│   └── css/
+│       ├── add_lista.css  # Arquivo CSS para estilizar a adição e edição de listas
+│       ├── add_tarefa.css # Arquivo CSS para estilizar a adição e edição de tarefas
+│       ├── home.css       # Arquivo CSS para estilizar a home
+│       ├── index.css      # Arquivo CSS para estilizar a index
+│       └── lista.css      # Arquivo CSS para estilizar a página que exibe as tarefas de uma lista
+├── templates/             # Arquivos HTML renderizados com Jinja2
+│   ├── add_lista.html     # Formulário para adicionar uma nova lista
+│   ├── add_tarefa.html    # Formulário para adicionar uma nova tarefa
+│   ├── edit_lista.html    # Formulário para editar uma lista
+│   ├── edit_tarefa.html   # Formulário para editar uma tarefa
+│   ├── home.html          # Página home que exibe as listas
+│   ├── index.html         # Página inicial
+│   ├── lista.html         # Página para exibir tarefas de uma lista
+├── api_routes.py          # Rotas da API (RESTful)
+├── app.py                 # Arquivo principal que inicia a aplicação Flask
+├── config.py              # Arquivo de configuração da aplicação
+├── database.py            # Conexão com o banco de dados SQLite
+├── forms.py               # Formulários
+├── models.py              # Definição dos modelos/tabelas do banco de dados
+├── requirements.txt       # Arquivo de dependências Python
+├── runtime.txt            # Versão do Python (se configurado)
+├── web_routes.py          # Rotas principais da aplicação (web)
 ```
 
 ---
@@ -113,16 +122,18 @@ O aplicativo estará disponível em `http://127.0.0.1:5000/`.
 
 ---
 
-## Rotas API
+## Backend
 
-### Rotas para Listas
+### Rotas API
+
+#### Rotas para Listas
 
 - **GET /listas**: Retorna todas as listas no formato JSON.
 - **POST /listas**: Cria uma nova lista com base nos dados fornecidos (necessário informar o título).
 - **PUT /listas/<int:id>**: Atualiza o título de uma lista com base no Id.
 - **DELETE /listas/<int:id>**: Exclui uma lista com base no Id.
 
-### Rotas para Tarefas
+#### Rotas para Tarefas
 
 - **GET /listas/<int:id_lista>/tarefas**: Retorna todas as tarefas associadas a uma lista.
 - **POST /listas/<int:id_lista>/tarefas**: Adiciona uma nova tarefa a uma lista.
@@ -130,12 +141,15 @@ O aplicativo estará disponível em `http://127.0.0.1:5000/`.
 - **PUT /listas/<int:id_lista>/tarefas/<int:id_tarefa>/concluir**: Marca uma tarefa como concluída (ou não).
 - **DELETE /listas/<int:id_lista>/tarefas/<int:id_tarefa>**: Exclui uma tarefa.
 
-## Rotas Web
+---
+## Frontend
 
-### Página Inicial
+### Rotas Web
+
+#### Página Inicial
 - **GET /**: Carrega a página principal que descreve o aplicativo
 
-### Página de Listas
+#### Página de Listas
 
 - **GET /home**: Carrega a página inicial com todas as listas.
 - **GET /lista/<int:id>**: Exibe as tarefas associadas a uma lista.
@@ -143,7 +157,7 @@ O aplicativo estará disponível em `http://127.0.0.1:5000/`.
 - **PUT /lista/<int:id>/edit**: Edita uma lista.
 - **DELETE /lista/<int:id>/delete**: Exclui uma lista.
 
-### Página de Tarefas
+#### Página de Tarefas
 
 - **POST /lista/<int:lista_id>/tarefa/add**: Adiciona uma nova tarefa à lista.
 - **PUT /lista/<int:lista_id>/tarefa/<int:tarefa_id>/edit**: Edita uma tarefa.
