@@ -13,9 +13,9 @@ Este é um aplicativo de tarefas (To-Do App) construído usando **Flask (Python)
 - **Python** (Flask)
 - **HTML/CSS** para as interfaces.
 - **SQLite** como banco de dados.
+- **SQLAlchemy** como ORM (Object-Relational Mapper) para abstrair as interações com o banco de dados
 - **Jinja2** para renderização de templates.
 - **jQuery** para manipulação de DOM e requisições AJAX.
-
 
 ---
 
@@ -51,7 +51,6 @@ TODO_APP/
 ├── runtime.txt            # Versão do Python (se configurado)
 ├── web_routes.py          # Rotas principais da aplicação (web)
 ```
-
 ---
 
 ## Como Rodar o Projeto Localmente
@@ -90,7 +89,6 @@ Instale todas as dependências listadas no arquivo `requirements.txt`:
 ```bash
 pip install -r requirements.txt
 ```
-
 ### 5. Inicializar o Banco de Dados
 
 Se o banco de dados ainda não estiver criado, você pode iniciá-lo rodando o seguinte comando Python:
@@ -117,7 +115,6 @@ flask run
 export FLASK_APP=app.py
 flask run
 ```
-
 O aplicativo estará disponível em `http://127.0.0.1:5000/`.
 
 ---
@@ -156,7 +153,7 @@ O modelo `Tarefa` representa uma tarefa específica dentro de uma lista. Contém
 - **concluida**: Indicador booleano que define se a tarefa foi concluída.
 - **lista_id**: Chave estrangeira que associa a tarefa a uma lista específica, utilizando o `id` da tabela `listas`.
 
-#### Relacionamento entre `Lista` e `Tarefa`
+### Relacionamento entre `Lista` e `Tarefa`
 
 - Uma `Lista` possui várias `Tarefas`, enquanto cada `Tarefa` pertence a uma única `Lista`.
 - Esse relacionamento um-para-muitos é configurado no SQLAlchemy através do `db.relationship` no modelo `Lista` e da `db.ForeignKey` no modelo `Tarefa`.
@@ -169,25 +166,45 @@ O banco de dados é criado e inicializado chamando `db.create_all()` no contexto
 
 ## Backend
 
-### Rotas API
+O **backend** é desenvolvido em **Flask**, que serve as rotas principais da aplicação e processa as requisições de dados. A aplicação está dividida em rotas **web** e **API RESTful** para facilitar a organização e permitir que o frontend e o backend funcionem de maneira independente.
 
-#### Rotas para Listas
+#### Rotas API 
+
+As rotas de API focadas em manipulações de dados e fornecimento de respostas JSON para as operações de criação, leitura, atualização e exclusão (CRUD) além de, fornecerem uma interface JSON para o frontend e permiterem uma interação dinâmica.
+
+#### **Listas**
 
 - **GET /listas**: Retorna todas as listas no formato JSON.
 - **POST /listas**: Cria uma nova lista com base nos dados fornecidos (necessário informar o título).
 - **PUT /listas/<int:id>**: Atualiza o título de uma lista com base no Id.
 - **DELETE /listas/<int:id>**: Exclui uma lista com base no Id.
 
-#### Rotas para Tarefas
+#### **Tarefas**
 
 - **GET /listas/<int:id_lista>/tarefas**: Retorna todas as tarefas associadas a uma lista.
 - **POST /listas/<int:id_lista>/tarefas**: Adiciona uma nova tarefa a uma lista.
 - **PUT /listas/<int:id_lista>/tarefas/<int:id_tarefa>**: Edita uma tarefa.
-- **PUT /listas/<int:id_lista>/tarefas/<int:id_tarefa>/concluir**: Marca uma tarefa como concluída (ou não).
+- **PUT /listas/<int:id_lista>/tarefas/<int:id_tarefa>/concluir**: Marca uma tarefa como concluída.
 - **DELETE /listas/<int:id_lista>/tarefas/<int:id_tarefa>**: Exclui uma tarefa.
 
 ---
+
 ## Frontend
+
+### Uso de jQuery e AJAX
+
+No frontend, o **jQuery** é utilizado para simplificar a manipulação do DOM (Document Object Model) e facilitar as requisições **AJAX** ao backend, que são essenciais para tornar o aplicativo mais interativo e responsivo. As requisições AJAX permitem que o conteúdo seja atualizado dinamicamente, sem a necessidade de recarregar a página, melhorando a experiência do usuário.
+
+As funcionalidades implementadas com jQuery e AJAX no aplicativo incluem:
+
+- **Marcar Tarefas como Concluídas**:
+   - Um checkbox permite que o usuário marque uma tarefa como concluída. Essa ação aciona uma requisição AJAX `PUT` para o backend, atualizando o status de conclusão da tarefa no banco de dados.
+
+- **Edição e Exclusão de Tarefas e Listas**:
+   - Botões de ação (ícones de lápis e lixeira) permitem que o usuário edite ou exclua listas e tarefas diretamente. A exclusão de itens é feita através de uma requisição AJAX `DELETE`, enquanto a edição utiliza uma combinação de AJAX e redirecionamentos para a interface de edição.
+
+- **Criação de Novas Tarefas e Listas**:
+   - Os formulários para adicionar listas e tarefas também utilizam jQuery para validações e envio de dados via AJAX, quando aplicável.
 
 ### Rotas Web
 
@@ -207,4 +224,3 @@ O banco de dados é criado e inicializado chamando `db.create_all()` no contexto
 - **POST /lista/<int:lista_id>/tarefa/add**: Adiciona uma nova tarefa à lista.
 - **PUT /lista/<int:lista_id>/tarefa/<int:tarefa_id>/edit**: Edita uma tarefa.
 - **DELETE /lista/<int:lista_id>/tarefa/<int:tarefa_id>/delete**: Exclui uma tarefa.
-
