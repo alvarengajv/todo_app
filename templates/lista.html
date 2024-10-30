@@ -1,248 +1,352 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do App - Lista</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lista.css') }}"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/lista.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
+  </head>
+
+  <body>
     <div class="container">
-        <div class="content">
-            <div class="header">
-                <a href="{{ url_for('web.home') }}" class="back-link">
-                    <i class="fas fa-chevron-left"></i>
-                    <span>Home</span>
-                </a>
-                <div class="action-buttons">
-                    <button type="button" class="icon-button edit-lista" data-id="{{ lista.id }}"> 
-                        <i class="fas fa-pencil"></i>
-                    </button>
-                    <button type="button" class="icon-button delete-lista" data-id="{{ lista.id }}"> 
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-
-            <h1>{{ lista.titulo }}</h1>
-
-            <div class="sort-controls">
-                <button type="button" class="sort-button active" data-sort="date" data-order="asc">
-                    <i class="fas fa-arrow-up"></i>
-                    Data
-                </button>
-                <button type="button" class="sort-button" data-sort="priority" data-order="asc">
-                    <i class="fas fa-arrow-up"></i>
-                    Prioridade
-                </button>
-            </div>
-
-            {% if lista.tarefas %}
-                <ul class="lista-tarefas">
-                    {% for tarefa in lista.tarefas|sort(attribute='data,hora')|sort(attribute='concluida') %}         
-                    <li class="tarefa-item">
-                        <div class="tarefa-header">
-                            <div class="tarefa-texto">
-                                <input type="checkbox" class="checkbox-tarefa" data-id="{{ tarefa.id }}" data-lista-id="{{ lista.id }}" {% if tarefa.concluida %}checked{% endif %}>
-                                <label class="tarefa-titulo {% if tarefa.concluida %}concluida{% endif %}">{{ tarefa.titulo }}</label>
-                            </div>
-                            <div class="tarefa-acoes">
-                                <button type="button" class="icon-button edit-tarefa" data-id="{{ tarefa.id }}" data-lista-id="{{ lista.id }}">
-                                    <i class="fas fa-pencil"></i>
-                                </button>
-                                <button type="button" class="icon-button delete-tarefa" data-id="{{ tarefa.id }}" data-lista-id="{{ lista.id }}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="tarefa-detalhes">
-                            <p class="tarefa-descricao">{{ tarefa.descricao }}</p>
-                            <p class="tarefa-data">
-                                <i class="far fa-calendar"></i> {{ tarefa.data.strftime('%d/%m/%Y') }}
-                                <i class="far fa-clock"></i> {{ tarefa.hora.strftime('%H:%M') }}
-                                <i class="fas fa-exclamation-circle"></i> {{ tarefa.prioridade }}
-                            </p>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="empty-state">Essa lista ainda não possui tarefas.</p>
-            {% endif %}
-            
-            <a href="{{ url_for('web.add_tarefa', lista_id=lista.id) }}" class="btn-primary">
-                <i class="fas fa-plus"></i>
-                Adicionar tarefa
-            </a>
+      <div class="content">
+        <div class="header">
+          <a href="{{ url_for('web.home') }}" class="back-link">
+            <i class="fas fa-chevron-left"></i>
+            <span>Home</span>
+          </a>
+          <div class="action-buttons">
+            <button
+              type="button"
+              class="icon-button edit-lista"
+              data-id="{{ lista.id }}"
+            >
+              <i class="fas fa-pencil"></i>
+            </button>
+            <button
+              type="button"
+              class="icon-button delete-lista"
+              data-id="{{ lista.id }}"
+            >
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
         </div>
+
+        <h1>{{ lista.titulo }}</h1>
+
+        <div class="sort-controls">
+          <button
+            type="button"
+            class="sort-button active"
+            data-sort="date"
+            data-order="asc"
+          >
+            <i class="fas fa-arrow-up"></i>
+            Data
+          </button>
+          <button
+            type="button"
+            class="sort-button"
+            data-sort="priority"
+            data-order="asc"
+          >
+            <i class="fas fa-arrow-up"></i>
+            Prioridade
+          </button>
+        </div>
+
+        {% if lista.tarefas %}
+        <ul class="lista-tarefas">
+          {% for tarefa in
+          lista.tarefas|sort(attribute='data,hora')|sort(attribute='concluida')
+          %}
+          <li class="tarefa-item">
+            <div class="tarefa-header">
+              <div class="tarefa-texto">
+                <input
+                  type="checkbox"
+                  class="checkbox-tarefa"
+                  data-id="{{ tarefa.id }}"
+                  data-lista-id="{{ lista.id }}"
+                  {%
+                  if
+                  tarefa.concluida
+                  %}checked{%
+                  endif
+                  %}
+                />
+                <label
+                  class="tarefa-titulo {% if tarefa.concluida %}concluida{% endif %}"
+                  >{{ tarefa.titulo }}</label
+                >
+              </div>
+              <div class="tarefa-acoes">
+                <button
+                  type="button"
+                  class="icon-button edit-tarefa"
+                  data-id="{{ tarefa.id }}"
+                  data-lista-id="{{ lista.id }}"
+                >
+                  <i class="fas fa-pencil"></i>
+                </button>
+                <button
+                  type="button"
+                  class="icon-button delete-tarefa"
+                  data-id="{{ tarefa.id }}"
+                  data-lista-id="{{ lista.id }}"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="tarefa-detalhes">
+              <p class="tarefa-descricao">{{ tarefa.descricao }}</p>
+              <p class="tarefa-data">
+                <i class="far fa-calendar"></i> {{
+                tarefa.data.strftime('%d/%m/%Y') }}
+                <i class="far fa-clock"></i> {{ tarefa.hora.strftime('%H:%M') }}
+                <i class="fas fa-exclamation-circle"></i> {{ tarefa.prioridade
+                }}
+              </p>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">Essa lista ainda não possui tarefas.</p>
+        {% endif %}
+
+        <a
+          href="{{ url_for('web.add_tarefa', lista_id=lista.id) }}"
+          class="btn-primary"
+        >
+          <i class="fas fa-plus"></i>
+          Adicionar tarefa
+        </a>
+      </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('.delete-lista').on('click', function() {
-                var listaId = $(this).data('id');
+      $(document).ready(function () {
+        function sortAndOrganizeTasks() {
+          const { sortBy, order } = loadSortPreferences();
+          sortTasks(sortBy, order);
+          moveCompletedTasksToEnd();
+        }
 
-                if (confirm('Tem certeza que deseja deletar esta lista?')) {
-                    $.ajax({
-                        url: '/lista/' + listaId + '/delete',
-                        type: 'DELETE',
-                        success: function(response) {
-                            if (response.success) {
-                                window.location.href = response.redirect;
-                            } else {
-                                alert('Erro ao deletar a lista: ' + response.error);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            alert('Erro ao deletar lista');
-                        }
-                    });
-                }
-            });
+        function moveCompletedTasksToEnd() {
+          const tasksList = $(".lista-tarefas");
+          const tasks = tasksList.children("li").get();
 
-            $('.edit-lista').on('click', function() {
-                var listaId = $(this).data('id'); 
-                window.location.href = '/lista/' + listaId + '/edit';
-            });
+          tasks.sort(function (a, b) {
+            const isACompleted = $(a).find(".checkbox-tarefa").is(":checked");
+            const isBCompleted = $(b).find(".checkbox-tarefa").is(":checked");
 
-            const SORT_PREFERENCES_KEY = 'todoListSortPreferences';
-            const listaId = new URLSearchParams(window.location.search).get('lista_id') || 
-                           window.location.pathname.split('/').filter(Boolean).pop();
-            
-            function saveSortPreferences(sortBy, order) {
-                const allPreferences = JSON.parse(localStorage.getItem(SORT_PREFERENCES_KEY) || '{}');
-                allPreferences[listaId] = { sortBy, order };
-                localStorage.setItem(SORT_PREFERENCES_KEY, JSON.stringify(allPreferences));
+            if (isACompleted && !isBCompleted) return 1;
+            if (!isACompleted && isBCompleted) return -1;
+            return 0;
+          });
+
+          $.each(tasks, function (index, item) {
+            tasksList.append(item);
+          });
+        }
+
+        const SORT_PREFERENCES_KEY = "todoListSortPreferences";
+        const listaId =
+          new URLSearchParams(window.location.search).get("lista_id") ||
+          window.location.pathname.split("/").filter(Boolean).pop();
+
+        function saveSortPreferences(sortBy, order) {
+          const allPreferences = JSON.parse(
+            localStorage.getItem(SORT_PREFERENCES_KEY) || "{}"
+          );
+          allPreferences[listaId] = { sortBy, order };
+          localStorage.setItem(
+            SORT_PREFERENCES_KEY,
+            JSON.stringify(allPreferences)
+          );
+        }
+
+        function loadSortPreferences() {
+          const allPreferences = JSON.parse(
+            localStorage.getItem(SORT_PREFERENCES_KEY) || "{}"
+          );
+          return allPreferences[listaId] || { sortBy: "date", order: "asc" };
+        }
+
+        function updateSortButtonsState(activeButton) {
+          $(".sort-button").removeClass("active desc");
+          activeButton.addClass("active");
+          if (activeButton.data("order") === "desc") {
+            activeButton.addClass("desc");
+          }
+        }
+
+        function sortTasks(sortBy, order) {
+          const tasksList = $(".lista-tarefas");
+          const tasks = tasksList.children("li").get();
+
+          tasks.sort(function (a, b) {
+            let aValue, bValue;
+
+            if (sortBy === "date") {
+              aValue = new Date(
+                $(a).find(".tarefa-data").data("timestamp")
+              ).getTime();
+              bValue = new Date(
+                $(b).find(".tarefa-data").data("timestamp")
+              ).getTime();
+              return order === "asc" ? aValue - bValue : bValue - aValue;
+            } else if (sortBy === "priority") {
+              aValue = $(a)
+                .find(".fa-exclamation-circle")
+                .parent()
+                .text()
+                .trim();
+              bValue = $(b)
+                .find(".fa-exclamation-circle")
+                .parent()
+                .text()
+                .trim();
+              return order === "asc"
+                ? aValue.localeCompare(bValue)
+                : bValue.localeCompare(aValue);
             }
+          });
 
-            function loadSortPreferences() {
-                const allPreferences = JSON.parse(localStorage.getItem(SORT_PREFERENCES_KEY) || '{}');
-                return allPreferences[listaId] || { sortBy: 'date', order: 'asc' };
-            }
+          $.each(tasks, function (index, item) {
+            tasksList.append(item);
+          });
+        }
 
-            function updateSortButtonsState(activeButton) {
-                $('.sort-button').removeClass('active desc');
-                activeButton.addClass('active');
-                if (activeButton.data('order') === 'desc') {
-                    activeButton.addClass('desc');
-                }
-            }
+        function applyInitialSort() {
+          const { sortBy, order } = loadSortPreferences();
+          const button = $(`.sort-button[data-sort="${sortBy}"]`);
+          button.data("order", order);
+          updateSortButtonsState(button);
+          sortAndOrganizeTasks();
+        }
 
-            function sortTasks(sortBy, order) {
-                const tasksList = $('.lista-tarefas');
-                const tasks = tasksList.children('li').get();
-                
-                tasks.sort(function(a, b) {
-                    let aValue, bValue;
-                    
-                    if (sortBy === 'date') {
-                        aValue = new Date($(a).find('.tarefa-data').data('timestamp')).getTime();
-                        bValue = new Date($(b).find('.tarefa-data').data('timestamp')).getTime();
-                        return order === 'asc' ? aValue - bValue : bValue - aValue;
-                    } else if (sortBy === 'priority') {
-                        aValue = $(a).find('.fa-exclamation-circle').parent().text().trim();
-                        bValue = $(b).find('.fa-exclamation-circle').parent().text().trim();
-                        return order === 'asc' ? 
-                            aValue.localeCompare(bValue) : 
-                            bValue.localeCompare(aValue);
-                    }
-                });
-                
-                $.each(tasks, function(index, item) {
-                    tasksList.append(item);
-                });
-            }
+        $(".sort-button").click(function () {
+          const $this = $(this);
+          const sortBy = $this.data("sort");
+          let order = $this.data("order");
 
-            function applyInitialSort() {
-                const { sortBy, order } = loadSortPreferences();
-                const button = $(`.sort-button[data-sort="${sortBy}"]`);
-                button.data('order', order);
-                updateSortButtonsState(button);
-                sortTasks(sortBy, order);
-            }
-            
-            $('.sort-button').click(function() {
-                const $this = $(this);
-                const sortBy = $this.data('sort');
-                let order = $this.data('order');
-                
-                order = order === 'asc' ? 'desc' : 'asc';
-                $this.data('order', order);
-                
-                updateSortButtonsState($this);
-                
-                sortTasks(sortBy, order);
-                
-                saveSortPreferences(sortBy, order);
-            });
+          order = order === "asc" ? "desc" : "asc";
+          $this.data("order", order);
 
-            $('.tarefa-data').each(function() {
-                const dateText = $(this).text().trim();
-                const [date, time] = dateText.match(/\d{2}\/\d{2}\/\d{4}|\d{2}:\d{2}/g);
-                const [day, month, year] = date.split('/');
-                const [hour, minute] = time.split(':');
-                const timestamp = new Date(year, month - 1, day, hour, minute);
-                $(this).attr('data-timestamp', timestamp.toISOString());
-            });
+          updateSortButtonsState($this);
 
-            applyInitialSort();
-
-            $('.delete-tarefa').on('click', function() {
-                var tarefaId = $(this).data('id');
-                var listaId = $(this).data('lista-id');
-
-                if (confirm('Tem certeza que deseja deletar esta tarefa?')) {
-                    $.ajax({
-                        url: '/lista/' + listaId + '/tarefa/' + tarefaId + '/delete',  
-                        type: 'DELETE',
-                        success: function(response) {
-                            if (response.success) {
-                                window.location.reload();  
-                            } else {
-                                alert('Erro ao deletar a tarefa: ' + response.error);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            alert('Erro ao deletar tarefa');
-                        }
-                    });
-                }
-            });
-
-            $('.edit-tarefa').on('click', function() {
-                var tarefaId = $(this).data('id');
-                var listaId = $(this).data('lista-id');
-                window.location.href = '/lista/' + listaId + '/tarefa/' + tarefaId + '/edit';
-            });
-
-            $('.checkbox-tarefa').on('change', function() {
-                var tarefaId = $(this).data('id');
-                var listaId = $(this).data('lista-id');
-                var concluida = $(this).is(':checked') ? 1 : 0;
-                var $label = $(this).siblings('.tarefa-titulo');
-
-                $.ajax({
-                    url: '/api/listas/' + listaId + '/tarefas/' + tarefaId + '/concluir',  
-                    type: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ 'concluida': concluida }),  
-                    success: function(response) {
-                        if (concluida) {
-                            $label.addClass('concluida');
-                        } else {
-                            $label.removeClass('concluida');
-                        }
-                        console.log('Status da tarefa atualizado com sucesso');
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Erro ao atualizar o status da tarefa');
-                        $(this).prop('checked', !concluida);
-                    }
-                });
-            });
+          saveSortPreferences(sortBy, order);
+          sortAndOrganizeTasks();
         });
-    </script>    
-</body>
+
+        $(".tarefa-data").each(function () {
+          const dateText = $(this).text().trim();
+          const [date, time] = dateText.match(
+            /\d{2}\/\d{2}\/\d{4}|\d{2}:\d{2}/g
+          );
+          const [day, month, year] = date.split("/");
+          const [hour, minute] = time.split(":");
+          const timestamp = new Date(year, month - 1, day, hour, minute);
+          $(this).attr("data-timestamp", timestamp.toISOString());
+        });
+
+        applyInitialSort();
+
+        $(".edit-lista").on("click", function () {
+          var listaId = $(this).data("id");
+          window.location.href = "/lista/" + listaId + "/edit";
+        });
+
+        $(".delete-lista").on("click", function () {
+          var listaId = $(this).data("id");
+
+          if (confirm("Tem certeza que deseja deletar esta lista?")) {
+            $.ajax({
+              url: "/lista/" + listaId + "/delete",
+              type: "DELETE",
+              success: function (response) {
+                if (response.success) {
+                  window.location.href = response.redirect;
+                } else {
+                  alert("Erro ao deletar a lista: " + response.error);
+                }
+              },
+              error: function (xhr, status, error) {
+                alert("Erro ao deletar lista");
+              },
+            });
+          }
+        });
+
+        $(".edit-tarefa").on("click", function () {
+          var tarefaId = $(this).data("id");
+          var listaId = $(this).data("lista-id");
+          window.location.href =
+            "/lista/" + listaId + "/tarefa/" + tarefaId + "/edit";
+        });
+
+        $(".delete-tarefa").on("click", function () {
+          var tarefaId = $(this).data("id");
+          var listaId = $(this).data("lista-id");
+
+          if (confirm("Tem certeza que deseja deletar esta tarefa?")) {
+            $.ajax({
+              url: "/lista/" + listaId + "/tarefa/" + tarefaId + "/delete",
+              type: "DELETE",
+              success: function (response) {
+                if (response.success) {
+                  window.location.reload();
+                } else {
+                  alert("Erro ao deletar a tarefa: " + response.error);
+                }
+              },
+              error: function (xhr, status, error) {
+                alert("Erro ao deletar tarefa");
+              },
+            });
+          }
+        });
+
+        $(".checkbox-tarefa").on("change", function () {
+          var tarefaId = $(this).data("id");
+          var listaId = $(this).data("lista-id");
+          var concluida = $(this).is(":checked") ? 1 : 0;
+          var $label = $(this).siblings(".tarefa-titulo");
+
+          $.ajax({
+            url:
+              "/api/listas/" + listaId + "/tarefas/" + tarefaId + "/concluir",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify({ concluida: concluida }),
+            success: function (response) {
+              if (concluida) {
+                $label.addClass("concluida");
+              } else {
+                $label.removeClass("concluida");
+              }
+              console.log("Status da tarefa atualizado com sucesso");
+              sortAndOrganizeTasks();
+            },
+            error: function (xhr, status, error) {
+              alert("Erro ao atualizar o status da tarefa");
+              $(this).prop("checked", !concluida);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
 </html>

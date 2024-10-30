@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do App - Adicionar Lista</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_lista.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/add_lista.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="container">
-        <div class="content">
-            <h1>Adicionar Lista</h1>
-            
-            <form action="{{ url_for('web.add_lista') }}" method="POST">
-                <div class="form-group">
-                    <label for="titulo">Título</label>
-                    <input 
-                        type="text" 
-                        id="titulo" 
-                        name="titulo" 
-                        placeholder="Digite o título da lista..." 
-                        required
-                    >
-                </div>
+      <div class="content">
+        <h1>Adicionar Lista</h1>
 
-                <div class="form-actions">
-                    <a href="{{ url_for('web.home') }}" class="btn-primary">
-                        <i class="fas fa-times"></i>
-                        Cancelar
-                    </a>
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-plus"></i>
-                        Adicionar
-                    </button>
-                </div>
-            </form>
-        </div>
+        <form action="{{ url_for('web.add_lista') }}" method="POST">
+          <div class="form-group">
+            <label for="titulo">Título</label>
+            <input
+              type="text"
+              id="titulo"
+              name="titulo"
+              placeholder="Digite o título da lista..."
+              required
+            />
+          </div>
+
+          <div class="form-actions">
+            <a href="{{ url_for('web.home') }}" class="btn-primary">
+              <i class="fas fa-times"></i>
+              Cancelar
+            </a>
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-plus"></i>
+              Adicionar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-</body>
+  </body>
 </html>

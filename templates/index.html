@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/index.css') }}"
+    />
+  </head>
+  <body>
     <div class="container">
-        <div class="content">
-            <h1>To Do App</h1>
-            <p>Este aplicativo de lista de tarefas ajuda você a organizar suas atividades de forma simples e eficiente. Com ele, você pode criar várias listas para diferentes projetos ou categorias, e adicionar tarefas personalizadas em cada uma delas. Cada tarefa pode incluir um título, data, hora e descrição, tornando o acompanhamento mais preciso. Ideal para quem busca gerenciar o tempo de forma produtiva e clara, seja em compromissos pessoais ou profissionais.</p>
-            <div class="text-center">
-                <a href="{{ url_for('web.home') }}" class="btn-primary">
-                    Começar a usar
-                </a>
-            </div>
-            <footer>
-                <p>Desenvolvido por: <a href="https://www.linkedin.com/in/alvarengajv/" target="_blank">João Vitor Alvarenga</a></p>
-            </footer>
+      <div class="content">
+        <h1>To Do App</h1>
+        <p>
+          Este aplicativo de lista de tarefas ajuda você a organizar suas
+          atividades de forma simples e eficiente. Com ele, você pode criar
+          várias listas para diferentes projetos ou categorias, e adicionar
+          tarefas personalizadas em cada uma delas. Cada tarefa pode incluir um
+          título, data, hora e descrição, tornando o acompanhamento mais
+          preciso. Ideal para quem busca gerenciar o tempo de forma produtiva e
+          clara, seja em compromissos pessoais ou profissionais.
+        </p>
+        <div class="text-center">
+          <a href="{{ url_for('web.home') }}" class="btn-primary">
+            Começar a usar
+          </a>
         </div>
+        <footer>
+          <p>
+            Desenvolvido por:
+            <a href="https://www.linkedin.com/in/alvarengajv/" target="_blank"
+              >João Vitor Alvarenga</a
+            >
+          </p>
+        </footer>
+      </div>
     </div>
-</body>
+  </body>
 </html>

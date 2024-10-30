@@ -1,79 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do App - Editar Lista</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_lista.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/add_lista.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="content">
-            <h1>Editar lista</h1>
+      <div class="content">
+        <h1>Editar lista</h1>
 
-            <form id="edit-lista-form" class="form-content">
-                <div class="form-group">
-                    <label for="titulo">Título</label>
-                    <input 
-                        type="text" 
-                        id="titulo" 
-                        name="titulo" 
-                        value="{{ lista.titulo }}" 
-                        required
-                        class="form-input"
-                    >
-                </div>
+        <form id="edit-lista-form" class="form-content">
+          <div class="form-group">
+            <label for="titulo">Título</label>
+            <input
+              type="text"
+              id="titulo"
+              name="titulo"
+              value="{{ lista.titulo }}"
+              required
+              class="form-input"
+            />
+          </div>
 
-                <div class="form-actions">
-                    <a href="{{ url_for('web.lista', id=lista.id) }}" class="btn-primary">
-                        <i class="fas fa-times"></i>
-                        Cancelar
-                    </a>
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-save"></i>
-                        Salvar
-                    </button>
-                </div>
-            </form>
-        </div>
+          <div class="form-actions">
+            <a
+              href="{{ url_for('web.lista', id=lista.id) }}"
+              class="btn-primary"
+            >
+              <i class="fas fa-times"></i>
+              Cancelar
+            </a>
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-save"></i>
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#edit-lista-form').on('submit', function(event) {
-                event.preventDefault(); 
+      $(document).ready(function () {
+        $("#edit-lista-form").on("submit", function (event) {
+          event.preventDefault();
 
-                var listaId = "{{ lista.id }}";
+          var listaId = "{{ lista.id }}";
 
-                var formData = {
-                    'titulo': $('#titulo').val(),
-                };
+          var formData = {
+            titulo: $("#titulo").val(),
+          };
 
-                if (!formData.titulo) {
-                    alert('O título da lista é obrigatório');
-                    return;
-                }
+          if (!formData.titulo) {
+            alert("O título da lista é obrigatório");
+            return;
+          }
 
-                $.ajax({
-                    url: '/lista/' + listaId + '/edit', 
-                    type: 'PUT',  
-                    contentType: 'application/json',
-                    data: JSON.stringify(formData),
-                    success: function(response) {
-                        if (response.success) {
-                            window.location.href = response.redirect;
-                        } else {
-                            alert('Erro ao atualizar lista: ' + response.error);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Erro ao atualizar lista. Por favor, tente novamente.');
-                    }
-                });
+          $.ajax({
+            url: "/lista/" + listaId + "/edit",
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            success: function (response) {
+              if (response.success) {
+                window.location.href = response.redirect;
+              } else {
+                alert("Erro ao atualizar lista: " + response.error);
+              }
+            },
+            error: function (xhr, status, error) {
+              alert("Erro ao atualizar lista. Por favor, tente novamente.");
+            },
           });
         });
+      });
     </script>
-</body>
+  </body>
 </html>
