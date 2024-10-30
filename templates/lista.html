@@ -28,9 +28,21 @@
 
             <h1>{{ lista.titulo }}</h1>
 
+            <div class="sort-controls">
+                <button type="button" class="sort-button active" data-sort="date" data-order="asc">
+                    <i class="fas fa-arrow-up"></i>
+                    Data
+                </button>
+                <button type="button" class="sort-button" data-sort="priority" data-order="asc">
+                    <i class="fas fa-arrow-up"></i>
+                    Prioridade
+                </button>
+            </div>
+
             {% if lista.tarefas %}
                 <ul class="lista-tarefas">
-                    {% for tarefa in lista.tarefas|sort(attribute='data,hora')|sort(attribute='concluida') %}                    <li class="tarefa-item">
+                    {% for tarefa in lista.tarefas|sort(attribute='data,hora')|sort(attribute='concluida') %}         
+                    <li class="tarefa-item">
                         <div class="tarefa-header">
                             <div class="tarefa-texto">
                                 <input type="checkbox" class="checkbox-tarefa" data-id="{{ tarefa.id }}" data-lista-id="{{ lista.id }}" {% if tarefa.concluida %}checked{% endif %}>
@@ -50,6 +62,7 @@
                             <p class="tarefa-data">
                                 <i class="far fa-calendar"></i> {{ tarefa.data.strftime('%d/%m/%Y') }}
                                 <i class="far fa-clock"></i> {{ tarefa.hora.strftime('%H:%M') }}
+                                <i class="fas fa-exclamation-circle"></i> {{ tarefa.prioridade }}
                             </p>
                         </div>
                     </li>
@@ -93,6 +106,88 @@
                 var listaId = $(this).data('id'); 
                 window.location.href = '/lista/' + listaId + '/edit';
             });
+
+            const SORT_PREFERENCES_KEY = 'todoListSortPreferences';
+            const listaId = new URLSearchParams(window.location.search).get('lista_id') || 
+                           window.location.pathname.split('/').filter(Boolean).pop();
+            
+            function saveSortPreferences(sortBy, order) {
+                const allPreferences = JSON.parse(localStorage.getItem(SORT_PREFERENCES_KEY) || '{}');
+                allPreferences[listaId] = { sortBy, order };
+                localStorage.setItem(SORT_PREFERENCES_KEY, JSON.stringify(allPreferences));
+            }
+
+            function loadSortPreferences() {
+                const allPreferences = JSON.parse(localStorage.getItem(SORT_PREFERENCES_KEY) || '{}');
+                return allPreferences[listaId] || { sortBy: 'date', order: 'asc' };
+            }
+
+            function updateSortButtonsState(activeButton) {
+                $('.sort-button').removeClass('active desc');
+                activeButton.addClass('active');
+                if (activeButton.data('order') === 'desc') {
+                    activeButton.addClass('desc');
+                }
+            }
+
+            function sortTasks(sortBy, order) {
+                const tasksList = $('.lista-tarefas');
+                const tasks = tasksList.children('li').get();
+                
+                tasks.sort(function(a, b) {
+                    let aValue, bValue;
+                    
+                    if (sortBy === 'date') {
+                        aValue = new Date($(a).find('.tarefa-data').data('timestamp')).getTime();
+                        bValue = new Date($(b).find('.tarefa-data').data('timestamp')).getTime();
+                        return order === 'asc' ? aValue - bValue : bValue - aValue;
+                    } else if (sortBy === 'priority') {
+                        aValue = $(a).find('.fa-exclamation-circle').parent().text().trim();
+                        bValue = $(b).find('.fa-exclamation-circle').parent().text().trim();
+                        return order === 'asc' ? 
+                            aValue.localeCompare(bValue) : 
+                            bValue.localeCompare(aValue);
+                    }
+                });
+                
+                $.each(tasks, function(index, item) {
+                    tasksList.append(item);
+                });
+            }
+
+            function applyInitialSort() {
+                const { sortBy, order } = loadSortPreferences();
+                const button = $(`.sort-button[data-sort="${sortBy}"]`);
+                button.data('order', order);
+                updateSortButtonsState(button);
+                sortTasks(sortBy, order);
+            }
+            
+            $('.sort-button').click(function() {
+                const $this = $(this);
+                const sortBy = $this.data('sort');
+                let order = $this.data('order');
+                
+                order = order === 'asc' ? 'desc' : 'asc';
+                $this.data('order', order);
+                
+                updateSortButtonsState($this);
+                
+                sortTasks(sortBy, order);
+                
+                saveSortPreferences(sortBy, order);
+            });
+
+            $('.tarefa-data').each(function() {
+                const dateText = $(this).text().trim();
+                const [date, time] = dateText.match(/\d{2}\/\d{2}\/\d{4}|\d{2}:\d{2}/g);
+                const [day, month, year] = date.split('/');
+                const [hour, minute] = time.split(':');
+                const timestamp = new Date(year, month - 1, day, hour, minute);
+                $(this).attr('data-timestamp', timestamp.toISOString());
+            });
+
+            applyInitialSort();
 
             $('.delete-tarefa').on('click', function() {
                 var tarefaId = $(this).data('id');

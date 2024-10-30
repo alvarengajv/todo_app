@@ -62,12 +62,16 @@ def delete_lista(id):
         return jsonify({'success': True, 'redirect': url_for('web.home')}), 200
     return jsonify({'error': 'Lista não encontrada'}), 404
 
+
+#---------------------------------------------- Rotas WEB para Tarefas ------------------------------------------
+
 @web_bp.route('/lista/<int:lista_id>/tarefa/add', methods=['GET', 'POST'])
 def add_tarefa(lista_id):
     if request.method == 'POST':
         titulo = request.form.get('titulo')
         data = request.form.get('data')
         hora = request.form.get('hora')
+        prioridade = request.form.get('prioridade')
         descricao = request.form.get('descricao')
 
         if not titulo or not data or not hora:
@@ -82,6 +86,7 @@ def add_tarefa(lista_id):
             titulo=titulo,
             data=data_formatada,
             hora=hora_formatada,
+            prioridade=prioridade,
             descricao=descricao,
             lista_id=lista_id
         )
@@ -94,16 +99,22 @@ def add_tarefa(lista_id):
 
 @web_bp.route('/lista/<int:lista_id>/tarefa/<int:tarefa_id>/edit', methods=['GET', 'PUT'])
 def edit_tarefa(lista_id, tarefa_id):
-    tarefa = db_session.query(Tarefa).filter_by(id=tarefa_id, lista_id=lista_id).first()
+    tarefa = db_session.query(Tarefa).filter_by(id=tarefa_id).first()
+    listas = db_session.query(Lista).all()
+
+    antiga_lista_id = tarefa.lista_id
+
     if not tarefa:
         return jsonify({'error': 'Tarefa não encontrada'}), 404
 
     if request.method == 'PUT':
         data = request.get_json()
         titulo = data.get('titulo')
-        descricao = data.get('descricao')
         data_tarefa = data.get('data')
         hora_tarefa = data.get('hora')
+        prioridade = data.get('prioridade')
+        descricao = data.get('descricao')
+        nova_lista_id = data.get('lista_id')  
 
         if not data_tarefa or not hora_tarefa:
             return jsonify({'error': 'Data e hora são obrigatórios!'}), 400
@@ -117,12 +128,16 @@ def edit_tarefa(lista_id, tarefa_id):
         tarefa.titulo = titulo
         tarefa.data = data_formatada
         tarefa.hora = hora_formatada
+        tarefa.prioridade = prioridade
         tarefa.descricao = descricao
+        tarefa.lista_id = nova_lista_id  
+
         db_session.commit()
 
-        return jsonify({'success': True, 'redirect': url_for('web.lista', id=lista_id)})
+        return jsonify({'success': True, 'redirect': url_for('web.lista', id=antiga_lista_id)})
 
-    return render_template('edit_tarefa.html', tarefa=tarefa, lista_id=lista_id)
+    return render_template('edit_tarefa.html', tarefa=tarefa, listas=listas, lista_id=lista_id)
+
 
 @web_bp.route('/lista/<int:lista_id>/tarefa/<int:tarefa_id>/delete', methods=['DELETE'])
 def delete_tarefa(lista_id, tarefa_id):

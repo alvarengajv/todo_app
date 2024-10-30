@@ -8,7 +8,6 @@ app = Flask(__name__)
 app.config.from_object(Config)
 app.json.sort_keys = False
 
-
 init_db()
 
 app.register_blueprint(web_bp)

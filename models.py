@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Time 
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, Date, Time, Enum
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -24,6 +24,7 @@ class Tarefa(Base):
     titulo = Column(String(100), nullable=False)
     data = Column(Date, nullable=False)
     hora = Column(Time, nullable=False)  
+    prioridade = Column(Enum('Sem prioridade', 'Baixa', 'Média', 'Alta'), nullable=True, default='Sem prioridade')
     descricao = Column(Text)
 
     concluida = Column(Integer, default=False)
@@ -37,6 +38,7 @@ class Tarefa(Base):
             'titulo': self.titulo,
             'data': self.data.strftime('%Y-%m-%d'),
             'hora': self.hora.strftime('%H:%M'),
+            'prioridade': self.prioridade,
             'descricao': self.descricao,
             'concluida': self.concluida
         }

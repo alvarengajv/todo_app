@@ -5,6 +5,7 @@ from datetime import datetime
 
 api_bp = Blueprint('api', __name__)
 
+
 #---------------------------------------------- Rotas da API para Listas ------------------------------------------
 @api_bp.route('/listas', methods=['GET'])
 def get_listas():
@@ -45,9 +46,7 @@ def delete_lista(id):
     return jsonify({'error': 'Lista não encontrada'}), 404
 
 
-
-
-#---------------------------------------------- Rotas da API para Tarefas ------------------------------------------
+#---------------------------------------------- Rotas API para Tarefas ------------------------------------------
 @api_bp.route('/listas/<int:id_lista>/tarefas', methods=['GET'])
 def get_tarefas(id_lista):
     lista = db_session.query(Lista).get(id_lista)
@@ -69,6 +68,7 @@ def add_tarefa(id_lista):
             titulo=data['titulo'],
             data=data_formatada,  
             hora=hora_formatada,  
+            prioridade=data['prioridade'],
             descricao=data['descricao'],
             lista=lista
         )
@@ -89,7 +89,15 @@ def edit_tarefa(id_lista, id_tarefa):
     tarefa.titulo = data.get('titulo', tarefa.titulo)
     tarefa.data = datetime.strptime(data.get('data'), '%Y-%m-%d').date()
     tarefa.hora = datetime.strptime(data.get('hora'), '%H:%M').time()
+    tarefa.prioridade = data.get('prioridade', tarefa.prioridade)
     tarefa.descricao = data.get('descricao', tarefa.descricao)
+
+    nova_lista_id = data.get('lista_id')
+    if nova_lista_id != id_lista:
+        nova_lista = db_session.query(Lista).get(nova_lista_id)
+        if nova_lista:
+            tarefa.lista = nova_lista
+
     db_session.commit()
 
     return jsonify({'success': True, 'tarefa': tarefa.to_dict()}), 200

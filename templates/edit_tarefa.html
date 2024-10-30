@@ -14,6 +14,16 @@
             <h1>Editar Tarefa</h1>
 
             <form id="edit-tarefa-form" class="form-content">
+
+                <div class="form-group">
+                    <label for="lista">Lista</label>
+                    <select id="lista" name="lista_id" required class="form-input">
+                        {% for lista in listas %}
+                        <option value="{{ lista.id }}" {% if lista.id == tarefa.lista_id %}selected{% endif %}>{{ lista.titulo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>                                        
+
                 <div class="form-group">
                     <label for="titulo">Título</label>
                     <input 
@@ -53,6 +63,21 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="prioridade">Prioridade</label>
+                    <select 
+                        id="prioridade" 
+                        name="prioridade" 
+                        required
+                        class="form-input"
+                    >
+                        <option value="Sem prioridade" {% if tarefa.prioridade == "Sem prioridade" %}selected{% endif %}>Sem prioridade</option>
+                        <option value="Baixa" {% if tarefa.prioridade == "Baixa" %}selected{% endif %}>Baixa</option>
+                        <option value="Média" {% if tarefa.prioridade == "Média" %}selected{% endif %}>Média</option>
+                        <option value="Alta" {% if tarefa.prioridade == "Alta" %}selected{% endif %}>Alta</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="descricao">Descrição</label>
                     <textarea 
                         id="descricao" 
@@ -81,13 +106,15 @@
                 event.preventDefault();
 
                 var tarefaId = "{{ tarefa.id }}";
-                var listaId = "{{ lista_id }}";
+                var listaId = $('#lista').val();  
 
                 var formData = {
                     'titulo': $('#titulo').val(),
                     'data': $('#data').val(),
                     'hora': $('#hora').val(),
-                    'descricao': $('#descricao').val()
+                    'prioridade': $('#prioridade').val(),
+                    'descricao': $('#descricao').val(),
+                    'lista_id': listaId 
                 };
 
                 if (!formData.titulo || !formData.data || !formData.hora) {

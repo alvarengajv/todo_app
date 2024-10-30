@@ -7,6 +7,7 @@
     --color-text-secondary: #666;
     --color-border: #e0e0e0;
     --color-input-background: #f8f9fa;
+    --color-select-background: #f8f9fa;
     --border-radius: 12px;
     --transition: all 0.3s ease;
 }
@@ -50,14 +51,13 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-bottom: 1.5rem;
 }
 
 label {
